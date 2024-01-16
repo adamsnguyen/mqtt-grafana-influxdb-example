@@ -1,0 +1,67 @@
+version: '3.2'
+
+# networks:
+#   default:
+#     driver: bridge
+
+services:
+  influxdb:
+    image: influxdb:latest
+    networks: 
+      - backend
+    ports:
+      - "8086:8086"
+    volumes:
+      - influx_data:/var/lib/influxdb
+    environment:
+      - INFLUXDB_DB=mydb
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+    volumes:
+      - ./custom.ini:/etc/grafana/grafana.ini
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - backend
+    ports:
+      - 1883:1883
+
+  publisher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./publisher.py:/app/app.py
+    depends_on:
+      - mosquitto
+    networks:
+      - backend
+
+  subscriber:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./subscriber.py:/app/app.py
+      - ./env_file:/app/.env
+    depends_on:
+      - mosquitto
+      - influxdb
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  influx_data:
+    

@@ -1,0 +1,4 @@
+ORG=kinitics
+URL=http://influxdb:8086
+TOKEN=utdKM5VB1ScOIEQIeUXkddLlshoF59WdsbAAl_fkmMM-EGrXJwJ63InR5CuSclla0x6FUtwwx03oPt4XbyroDA==
+BUCKET=kinitics

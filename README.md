@@ -1,0 +1,1 @@
+https://akpolatcem.medium.com/how-to-use-influxdb-with-a-simple-python-app-38213bf12084
