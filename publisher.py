@@ -15,7 +15,7 @@ def generate_sine_wave_with_noise():
     while True:
         yield math.sin(i) + random.uniform(-0.5, 0.5)
         i += 0.1
-        time.sleep(0.1) # Generates data every 100 ms
+        time.sleep(0.02) # Generates data every 100 ms
 
 client = mqtt.Client("P1")
 time.sleep(10)  # Wait for services to fully load
